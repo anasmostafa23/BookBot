@@ -2,16 +2,16 @@ def main():
     book_path = "books/frankenstein.txt"
     text = get_book_text(book_path)
     count = count_words(text)
-    print(f"There is {count} words in this document.")
+    print(f"There is {count} words in this document.\n")
     text_l = text.lower()
     text_l=text_l.strip()
     d1={}
     d2={}
-    
+
     
 
     d1 , d2 = count_letters(text_l)
-    print (f"{d1}"+f"\n \n{d2}")
+    print (f"the count of each letter in alphabetical order:\n{d1}\n"+f"\n the count of each letter in frequency order:\n{d2}")
     
 
 

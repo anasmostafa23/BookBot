@@ -1,45 +1,54 @@
 def main():
     book_path = "books/frankenstein.txt"
     text = get_book_text(book_path)
-    count = count_words(text)
-    print(f"There is {count} words in this document.\n")
-    text_l = text.lower()
-    text_l=text_l.strip()
-    d1={}
-    d2={}
+    num_words = get_num_words(text)
+    chars_dict = get_chars_dict(text)
+    chars_sorted_list = chars_dict_to_sorted_list(chars_dict)
 
-    
+    print(f"--- Begin report of {book_path} ---")
+    print(f"{num_words} words found in the document")
+    print()
 
-    d1 , d2 = count_letters(text_l)
-    print (f"the count of each letter in alphabetical order:\n{d1}\n"+f"\n the count of each letter in frequency order:\n{d2}")
-    
+    for item in chars_sorted_list:
+        if not item["char"].isalpha():
+            continue
+        print(f"The '{item['char']}' character was found {item['num']} times")
+
+    print("--- End report ---")
+
+
+def get_num_words(text):
+    words = text.split()
+    return len(words)
+
+
+def sort_on(d):
+    return d["num"]
+
+
+def chars_dict_to_sorted_list(num_chars_dict):
+    sorted_list = []
+    for ch in num_chars_dict:
+        sorted_list.append({"char": ch, "num": num_chars_dict[ch]})
+    sorted_list.sort(reverse=True, key=sort_on)
+    return sorted_list
+
+
+def get_chars_dict(text):
+    chars = {}
+    for c in text:
+        lowered = c.lower()
+        if lowered in chars:
+            chars[lowered] += 1
+        else:
+            chars[lowered] = 1
+    return chars
 
 
 
 def get_book_text(path):
     with open(path) as f:
         return f.read()
-
-
-def count_words(txt):
-    count = txt.split()
-    return (len(count))
-
-def count_letters (txt) :
-    letter_count = {}
-    for i in txt : 
-        if i.isalpha() == False:
-            continue
-        if i in letter_count:
-            letter_count[i] += 1 
-        else :
-            letter_count[i] = 1 
-    
-    letter_count_sorted_alpha = {k: v for k, v in sorted(letter_count.items())}
-    letter_count_sorted_num = {k: v for k, v in sorted(letter_count.items(), key=lambda item: item[1] , reverse= True)}
-    return letter_count_sorted_alpha , letter_count_sorted_num
-    
-
 
 
 main()
